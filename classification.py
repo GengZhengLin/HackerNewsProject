@@ -148,9 +148,9 @@ def classification(Xtrain,ytrain,Xtest,ytest,pname,pclass_weight={}):
     for clf, name in (
             (RidgeClassifier(tol=1e-2, solver="lsqr"), "Ridge Classifier"),
             (Perceptron(), "Perceptron"),
-            (PassiveAggressiveClassifier(), "Passive-Aggressive"),
-            (KNeighborsClassifier(n_neighbors=10), "kNN"),
-            (RandomForestClassifier(n_estimators=100), "Random forest")):
+            (PassiveAggressiveClassifier(), "Passive-Aggressive")):
+           # (KNeighborsClassifier(n_neighbors=10), "kNN"),
+           # (RandomForestClassifier(n_estimators=100), "Random forest")):
         Wite_Report('=' * 80)
         Wite_Report(name)
         results.append(benchmark(clf))
@@ -173,9 +173,9 @@ def classification(Xtrain,ytrain,Xtest,ytest,pname,pclass_weight={}):
                                            penalty="elasticnet")))
 
     # Train NearestCentroid without threshold
-    Wite_Report('=' * 80)
-    Wite_Report("NearestCentroid (aka Rocchio classifier)")
-    results.append(benchmark(NearestCentroid()))
+    # Wite_Report('=' * 80)
+    # Wite_Report("NearestCentroid (aka Rocchio classifier)")
+    # results.append(benchmark(NearestCentroid()))
 
     # Train sparse Naive Bayes classifiers
     Wite_Report('=' * 80)
