@@ -49,6 +49,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils.extmath import density
 from sklearn import metrics
 from sklearn import svm
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.multiclass import OneVsRestClassifier
 import pickle
 
 X_train={}
@@ -222,4 +225,55 @@ def classification(Xtrain,ytrain,Xtest,ytest,pname,pclass_weight={}):
 
     # # plt.show()
     # plt.savefig(plot_directory+gname+'.png')
+    report.close()
+
+
+def multi_classification(Xtrain,ytrain,Xtest,ytest,pname):
+    global X_train, y_train, X_test, y_test, gname, class_weight, report
+    X_train = Xtrain
+    y_train = ytrain
+    X_test = Xtest
+    y_test = ytest
+    gname = pname
+    result_directory = 'reports/'
+    os.system("taskset -p 0xff %d" % os.getpid())
+    print('classification:' + pname)
+    if not os.path.exists(result_directory):
+        os.makedirs(result_directory)
+    roc_directory = result_directory + gname + '_roc_curves/'
+    if not os.path.exists(roc_directory):
+        os.makedirs(roc_directory)
+    plot_directory = result_directory + 'plot/'
+    if not os.path.exists(plot_directory):
+        os.makedirs(plot_directory)
+    report = open(result_directory + pname + '-report.txt', 'wb')
+
+    results = []
+
+    for clf, name in [(MultinomialNB(alpha=.01), "Naive Bayes"),
+                      (DecisionTreeClassifier(), "Decision Tree")]:
+                      # (RandomForestClassifier(n_estimators=100), "Random forest"),
+                      # (KNeighborsClassifier(n_neighbors=10), "kNN")]:
+        Wite_Report('=' * 80)
+        Wite_Report(name)
+        results.append(benchmark(clf))
+
+    for penalty in ["l2"]:  #, "l1"]:
+        Wite_Report('=' * 80)
+        Wite_Report("OneVsRestClassifier %s penalty" % penalty.upper())
+        # Train Liblinear model
+        results.append(benchmark(OneVsRestClassifier(
+            LinearSVC(loss='l2', penalty=penalty,dual=False, tol=1e-3))))
+
+        # Train SGD model
+        results.append(benchmark(OneVsRestClassifier(
+            SGDClassifier(alpha=.0001, n_iter=50,penalty=penalty))))
+
+    for clf, name in [(SGDClassifier(alpha=.0001, n_iter=50, penalty="elasticnet"),
+                       "Elastic-Net penalty"),
+                      (RidgeClassifier(tol=1e-2, solver="lsqr"), "Ridge Classifier")]:
+        Wite_Report('=' * 80)
+        Wite_Report("OneVsRestClassifier " + name)
+        results.append(benchmark(OneVsRestClassifier(clf)))
+
     report.close()
