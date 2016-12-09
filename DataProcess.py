@@ -246,30 +246,30 @@ def train_n_gram(n):
 
     train_counts = Load_Pickle_Data(train_folder+str(n)+'-gram_train_counts.plk')
     test_counts = Load_Pickle_Data(test_folder+str(n)+'-gram_test_counts.plk')
-    name = str(n)+'-gram_simple_counts'
-    parallel_classification(train_counts, train_targets, test_counts, test_targets, name)
-
-    X_resampled, y_resampled = under_sample(train_counts, train_targets)
-    report_name = name + '-undersample'
-    parallel_classification(X_resampled, y_resampled, test_counts, test_targets, report_name)
-
-    X_resampled, y_resampled = over_sample(train_counts, train_targets)
-    report_name = name + '-oversample'
-    parallel_classification(X_resampled, y_resampled, test_counts, test_targets, report_name)
+    # name = str(n)+'-gram_simple_counts'
+    # parallel_classification(train_counts, train_targets, test_counts, test_targets, name)
+    #
+    # X_resampled, y_resampled = under_sample(train_counts, train_targets)
+    # report_name = name + '-undersample'
+    # parallel_classification(X_resampled, y_resampled, test_counts, test_targets, report_name)
+    #
+    # X_resampled, y_resampled = over_sample(train_counts, train_targets)
+    # report_name = name + '-oversample'
+    # parallel_classification(X_resampled, y_resampled, test_counts, test_targets, report_name)
 
     tf_transformer = TfidfTransformer()
     train_tfidf = tf_transformer.fit_transform(train_counts)
     test_tfidf = tf_transformer.transform(test_counts)
     name = str(n)+'-gram_tfidf'
-    parallel_classification(train_tfidf, train_targets, test_tfidf, test_targets, name)
+    # parallel_classification(train_tfidf, train_targets, test_tfidf, test_targets, name)
 
     X_resampled, y_resampled = under_sample(train_tfidf, train_targets)
     report_name = name + '-undersample'
     parallel_classification(X_resampled, y_resampled, test_tfidf, test_targets, report_name)
 
-    X_resampled, y_resampled = over_sample(train_tfidf, train_targets)
-    report_name = name + '-oversample'
-    parallel_classification(X_resampled, y_resampled, test_tfidf, test_targets, report_name)
+    # X_resampled, y_resampled = over_sample(train_tfidf, train_targets)
+    # report_name = name + '-oversample'
+    # parallel_classification(X_resampled, y_resampled, test_tfidf, test_targets, report_name)
 
 def w2v_train(vsize):
     train_folder='train_original/'
@@ -314,14 +314,14 @@ if __name__ == '__main__':
     # Gen_Csv_Data('test_60/',data_dict,field_names)
 
     # N-gram Tokenize
-    # train_folder = 'train_140/'
-    # test_folder = 'test_60/'
-    n_gram_min = 2
-    n_gram_max = 6
-    for n in range(n_gram_min, n_gram_max+1):
-        N_Gram_Tokenize_Train_Data(train_folder, n)
-        dict_vec = Load_Pickle_Data(train_folder+str(n)+'-gram_dict_vec.plk')
-        N_Gram_Tokenize_Test_Data(test_folder, dict_vec, n)
+    train_folder = 'train_160/'
+    test_folder = 'test_40/'
+    n_gram_min = 7
+    n_gram_max = 9
+    # for n in range(n_gram_min, n_gram_max+1):
+    #     N_Gram_Tokenize_Train_Data(train_folder, n)
+    #     dict_vec = Load_Pickle_Data(train_folder+str(n)+'-gram_dict_vec.plk')
+    #     N_Gram_Tokenize_Test_Data(test_folder, dict_vec, n)
 
 
     # classification

@@ -145,17 +145,19 @@ def classification(Xtrain,ytrain,Xtest,ytest,pname,pclass_weight={}):
         results.append(benchmark(svm.SVC(kernel='linear',class_weight=class_weight)))
         return
 
-    for clf, name in (
-            (RidgeClassifier(tol=1e-2, solver="lsqr"), "Ridge Classifier"),
-            (Perceptron(), "Perceptron"),
-            (PassiveAggressiveClassifier(), "Passive-Aggressive")):
-           # (KNeighborsClassifier(n_neighbors=10), "kNN"),
-           # (RandomForestClassifier(n_estimators=100), "Random forest")):
-        Wite_Report('=' * 80)
-        Wite_Report(name)
-        results.append(benchmark(clf))
+    # for clf, name in (
+    #         (RidgeClassifier(tol=1e-2, solver="lsqr"), "Ridge Classifier"),
+    #        (Perceptron(), "Perceptron"),
+    #        (PassiveAggressiveClassifier(), "Passive-Aggressive")
+    #        (KNeighborsClassifier(n_neighbors=10), "kNN"),
+    #        (RandomForestClassifier(n_estimators=100), "Random forest")):
+    clf = RidgeClassifier(tol=1e-2, solver="lsqr")
+    name = "Ridge Classifier"
+    Wite_Report('=' * 80)
+    Wite_Report(name)
+    results.append(benchmark(clf))
 
-    for penalty in ["l2", "l1"]:
+    for penalty in ["l2"]:  #["l2", "l1"]:
         Wite_Report('=' * 80)
         Wite_Report("%s penalty" % penalty.upper())
         # Train Liblinear model
@@ -178,19 +180,19 @@ def classification(Xtrain,ytrain,Xtest,ytest,pname,pclass_weight={}):
     # results.append(benchmark(NearestCentroid()))
 
     # Train sparse Naive Bayes classifiers
-    Wite_Report('=' * 80)
-    Wite_Report("Naive Bayes")
-    results.append(benchmark(MultinomialNB(alpha=.01)))
-    results.append(benchmark(BernoulliNB(alpha=.01)))
+    # Wite_Report('=' * 80)
+    # Wite_Report("Naive Bayes")
+    # results.append(benchmark(MultinomialNB(alpha=.01)))
+    # results.append(benchmark(BernoulliNB(alpha=.01)))
 
-    Wite_Report('=' * 80)
-    Wite_Report("LinearSVC with L1-based feature selection")
-    # The smaller C, the stronger the regularization.
-    # The more regularization, the more sparsity.
-    results.append(benchmark(Pipeline([
-      ('feature_selection', LinearSVC(penalty="l1", dual=False, tol=1e-3)),
-      ('classification', LinearSVC())
-    ])))
+    # Wite_Report('=' * 80)
+    # Wite_Report("LinearSVC with L1-based feature selection")
+    # # The smaller C, the stronger the regularization.
+    # # The more regularization, the more sparsity.
+    # results.append(benchmark(Pipeline([
+    #   ('feature_selection', LinearSVC(penalty="l1", dual=False, tol=1e-3)),
+    #   ('classification', LinearSVC())
+    # ])))
 
 
     # make some plots
