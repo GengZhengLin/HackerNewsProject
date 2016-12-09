@@ -230,8 +230,8 @@ def N_Gram_Tokenize_Test_Data(dirname, dict_vec, n):
         pickle.dump(test_counts, f, pickle.HIGHEST_PROTOCOL)
 
 def train_n_gram(n):
-    train_folder='train_140/'
-    test_folder='test_60/'
+    train_folder='train_original/'
+    test_folder='test_original/'
     popular_thresh=30
     data_list=Load_Data_List(train_folder+'/data.csv')
     num_train=len(data_list)
@@ -314,14 +314,14 @@ if __name__ == '__main__':
     # Gen_Csv_Data('test_60/',data_dict,field_names)
 
     # N-gram Tokenize
-    train_folder = 'train_160/'
-    test_folder = 'test_40/'
+    train_folder = 'train_original/'
+    test_folder = 'test_original/'
     n_gram_min = 7
     n_gram_max = 9
-    # for n in range(n_gram_min, n_gram_max+1):
-    #     N_Gram_Tokenize_Train_Data(train_folder, n)
-    #     dict_vec = Load_Pickle_Data(train_folder+str(n)+'-gram_dict_vec.plk')
-    #     N_Gram_Tokenize_Test_Data(test_folder, dict_vec, n)
+    for n in range(n_gram_min, n_gram_max+1):
+        N_Gram_Tokenize_Train_Data(train_folder, n)
+        dict_vec = Load_Pickle_Data(train_folder+str(n)+'-gram_dict_vec.plk')
+        N_Gram_Tokenize_Test_Data(test_folder, dict_vec, n)
 
 
     # classification
