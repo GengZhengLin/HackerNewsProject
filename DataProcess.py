@@ -314,24 +314,27 @@ if __name__ == '__main__':
     # Gen_Csv_Data('test_60/',data_dict,field_names)
 
     # N-gram Tokenize
-    train_folder = 'train_original/'
-    test_folder = 'test_original/'
-    n_gram_min = 7
-    n_gram_max = 9
-    for n in range(n_gram_min, n_gram_max+1):
-        N_Gram_Tokenize_Train_Data(train_folder, n)
-        dict_vec = Load_Pickle_Data(train_folder+str(n)+'-gram_dict_vec.plk')
-        N_Gram_Tokenize_Test_Data(test_folder, dict_vec, n)
+    # train_folder = 'train_original/'
+    # test_folder = 'test_original/'
+    # n_gram_min = 7
+    # n_gram_max = 9
+
+    # for n in range(n_gram_min, n_gram_max+1):
+    #     N_Gram_Tokenize_Train_Data(train_folder, n)
+    #     dict_vec = Load_Pickle_Data(train_folder+str(n)+'-gram_dict_vec.plk')
+    #     N_Gram_Tokenize_Test_Data(test_folder, dict_vec, n)
 
 
-    # classification
-    # train()
-    # w2v_train(100)
-    # w2v_train(200)
-    # w2v_train(300)
-    # w2v_train(500)
-    # w2v_train(400)
+    # # classification
+    # # train()
+    # # w2v_train(100)
+    # # w2v_train(200)
+    # # w2v_train(300)
+    # # w2v_train(500)
+    # # w2v_train(400)
     for n in range(n_gram_min, n_gram_max+1):
         train_n_gram(n)
+    
+
 
 
